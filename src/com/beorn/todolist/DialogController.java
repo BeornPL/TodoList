@@ -4,9 +4,9 @@ import com.beorn.todolist.datamodel.TodoData;
 import com.beorn.todolist.datamodel.TodoItem;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import java.awt.TextArea;
 import java.time.LocalDate;
 
 /**
@@ -16,15 +16,18 @@ public class DialogController {
     @FXML
     private TextField shortDescriptionField;
     @FXML
-    private TextArea detailArea;
+    private TextArea detailsArea;
     @FXML
     private DatePicker deadlinePicker;
 
-    public void processReasults() {
+    @FXML
+    public TodoItem processResults() {
         String shortDescription = shortDescriptionField.getText().trim();
-        String details = detailArea.getText().trim();
+        String details = detailsArea.getText().trim();
         LocalDate deadlineValue = deadlinePicker.getValue();
 
-        TodoData.getInsance().addTodoItem(new TodoItem(shortDescription, details, deadlineValue));
+        TodoItem newItem = new TodoItem(shortDescription, details, deadlineValue);
+        TodoData.getInsance().addTodoItem(newItem);
+        return newItem;
     }
 }
