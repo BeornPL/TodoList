@@ -2,6 +2,7 @@ package com.beorn.todolist;
 
 import com.beorn.todolist.datamodel.TodoData;
 import com.beorn.todolist.datamodel.TodoItem;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -9,12 +10,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -123,6 +124,21 @@ public class Controller {
             DialogController controller = fxmlLoader.getController();
             TodoItem newItem = controller.processResults();
             todoListView.getSelectionModel().select(newItem);
+        }
+    }
+
+    @FXML
+    private void exit(){
+        Platform.exit();
+    }
+
+    @FXML
+    public void handleKeyPressed(KeyEvent keyEvent) {
+        TodoItem selectedItem = todoListView.getSelectionModel().getSelectedItem();
+        if(selectedItem != null) {
+            if(keyEvent.getCode().equals(KeyCode.DELETE)) {
+                deleteItem(selectedItem);
+            }
         }
     }
 
